@@ -56,16 +56,16 @@ class printBill
         $blockHeader = <<<HTML
             <table style="font-size:8px; text-align:center; width:100%; ">
                 <tr>
-                    <td><b>Guru Gedara Publication and Bookshop</b></td>
+                    <td><b>SCOUT SHOP</b></td>
                 </tr>
                 <tr>
-                    <td>Negombo rd, Dambadeniya</td>
+                    <td>Kurunegala District Scout Headquarters</td>
                 </tr>
                 <tr>
-                    <td>Main Branch Polgahawela</td>
+                    <td>No.17, Baladaksha Mawatha <br> Kurunegala</td>
                 </tr>
                 <tr>
-                    <td>070 3 273 747 / 077 2 213793 <br>Date: $saledate &nbsp; &nbsp;  Time: $saletime <br> Bill No: {$valueSale}</td>
+                    <td>037 22 22 094  <br>Date: $saledate &nbsp; &nbsp;  Time: $saletime <br> Bill No: {$valueSale}</td>
                 </tr>
                 <tr>
                     <td>Customer name: {$answerCustomer['name']} &nbsp;&nbsp;&nbsp; Seller: {$answerSeller['name']}<br></td>

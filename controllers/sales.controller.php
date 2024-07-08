@@ -553,28 +553,28 @@ class ControllerSales{
 	public function ctrDownloadReport(){
 
 		if(isset($_GET["report"])){
-
+	
 			$table = "sales";
-
+	
 			if(isset($_GET["initialDate"]) && isset($_GET["finalDate"])){
-
+	
 				$sales = ModelSales::mdlSalesDatesRange($table, $_GET["initialDate"], $_GET["finalDate"]);
-
+	
 			}else{
-
+	
 				$item = null;
 				$value = null;
-
+	
 				$sales = ModelSales::mdlShowSales($table, $item, $value);
-
+	
 			}
-
+	
 			/*=============================================
 			WE CREATE EXCEL FILE
 			=============================================*/
-
+	
 			$name = $_GET["report"].'.xls';
-
+	
 			header('Expires: 0');
 			header('Cache-control: private');
 			header("Content-type: application/vnd.ms-excel"); // Excel file
@@ -584,9 +584,9 @@ class ControllerSales{
 			header("Pragma: public"); 
 			header('Content-Disposition:; filename="'.$name.'"');
 			header("Content-Transfer-Encoding: binary");
-
+	
 			echo utf8_decode("<table border='0'> 
-
+	
 					<tr> 
 					<td style='font-weight:bold; border:1px solid #eee;'>Sale ID</td> 
 					<td style='font-weight:bold; border:1px solid #eee;'>Customer</td>
@@ -594,53 +594,76 @@ class ControllerSales{
 					<td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>Products</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>Dicsount</td>
-					<td style='font-weight:bold; border:1px solid #eee;'>Net Items Price</td>		
-					<td style='font-weight:bold; border:1px solid #eee;'>Total Price</td>		
-					<td style='font-weight:bold; border:1px solid #eee;'>Payment Method</td	
-					<td style='font-weight:bold; border:1px solid #eee;'>Date</td>		
+					<td style='font-weight:bold; border:1px solid #eee;'>Net Items Price</td>        
+					<td style='font-weight:bold; border:1px solid #eee;'>Total Price</td>        
+					<td style='font-weight:bold; border:1px solid #eee;'>Payment Method</td>    
+					<td style='font-weight:bold; border:1px solid #eee;'>Date</td>        
+					<td style='font-weight:bold; border:1px solid #eee;'>Total Sale Amount</td>        
 					</tr>");
-
+	
+			$totalSaleAmount = 0; // Variable to store total sale amount
+			$previousDate = null; // Variable to store the previous date
+	
 			foreach ($sales as $row => $item){
+	
+				// Calculate sale amount for the current sale
+				$saleAmount = $item["totalPrice"];
+	
+				// Check if the date has changed
+				$currentDate = substr($item["saledate"],0,10);
+				if ($currentDate != $previousDate) {
+					// Output total sale amount for the previous day
+					if ($previousDate != null) {
+						echo "<tr><td colspan='10'></td><td style='font-weight:bold; border:1px solid #eee;'>Total Sale Amount for ". $previousDate .": Rs. ". number_format($totalSaleAmount, 2) ."</td></tr>";
+					}
+					$previousDate = $currentDate; // Update previous date
+					$totalSaleAmount = 0; // Reset total sale amount for the new day
+				}
 
+				$totalSaleAmount += $saleAmount; // Add sale amount to total
+	
+				// Output sale details
 				$customer = ControllerCustomers::ctrShowCustomers("id", $item["idCustomer"]);
 				$Seller = ControllerUsers::ctrShowUsers("id", $item["idSeller"]);
-
-			 echo utf8_decode("<tr>
-			 			<td style='border:1px solid #eee;'>".$item["code"]."</td> 
-			 			<td style='border:1px solid #eee;'>".$customer["name"]."</td>
-			 			<td style='border:1px solid #eee;'>".$Seller["name"]."</td>
-			 			<td style='border:1px solid #eee;'>");
-
-			 	$products =  json_decode($item["products"], true);
-
-			 	foreach ($products as $key => $valueproducts) {
-			 			
-			 			echo utf8_decode($valueproducts["quantity"]."<br>");
-			 		}
-
-			 	echo utf8_decode("</td><td style='border:1px solid #eee;'>");	
-
-		 		foreach ($products as $key => $valueproducts) {
-			 			
-		 			echo utf8_decode($valueproducts["description"]."<br>");
-		 		
-		 		}
-
-		 		echo utf8_decode("</td>
-					<td style='border:1px solid #eee;'>$ ".number_format($item["discount"],2)."</td>
-					<td style='border:1px solid #eee;'>$ ".number_format($item["netItemsPrice"],2)."</td>	
-					<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
+	
+				echo utf8_decode("<tr>
+						<td style='border:1px solid #eee;'>".$item["code"]."</td> 
+						<td style='border:1px solid #eee;'>".$customer["name"]."</td>
+						<td style='border:1px solid #eee;'>".$Seller["name"]."</td>
+						<td style='border:1px solid #eee;'>");
+	
+				$products =  json_decode($item["products"], true);
+	
+				foreach ($products as $key => $valueproducts) {
+						
+					echo utf8_decode($valueproducts["quantity"]."<br>");
+				}
+	
+				echo utf8_decode("</td><td style='border:1px solid #eee;'>");  
+	
+				foreach ($products as $key => $valueproducts) {
+						
+					echo utf8_decode($valueproducts["description"]."<br>");
+				
+				}
+	
+				echo utf8_decode("</td>
+					<td style='border:1px solid #eee;'>Rs. ".number_format($item["discount"],2)."</td>
+					<td style='border:1px solid #eee;'>Rs. ".number_format($item["netItemsPrice"],2)."</td>    
+					<td style='border:1px solid #eee;'>Rs. ".number_format($item["totalPrice"],2)."</td>
 					<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
-					<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
-		 			</tr>");
-
+					<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>
+					</tr>");
+	
 			}
-
-
+	
+			// Output total sale amount for the last day
+			// echo "<tr><td colspan='10'></td><td style='font-weight:bold; border:1px solid #eee;'>Total Sale Amount for ". $previousDate .": Rs. ". number_format($totalSaleAmount, 2) ."</td></tr>";
+	
 			echo "</table>";
-
+	
 		}
-
+	
 	}
 
 	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
