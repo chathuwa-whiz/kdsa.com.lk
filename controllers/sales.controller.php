@@ -192,15 +192,13 @@ class ControllerSales{
 								if (result.value) { 
 									// result.value is a boolean value (true or false)
 
-									// window.location = "sales";
-
-									console.log('.$_POST["newSale"].');
-
 									var saleCode = '.$_POST["newSale"].';
-									
+
 									window.open("extensions/tcpdf/pdf/bill.php?code="+saleCode, "_blank");  // print the recipt
 
-									
+									window.location.href = "create-sale";
+
+									console.log('.$_POST["newSale"].');								
 								}
 							})
 
