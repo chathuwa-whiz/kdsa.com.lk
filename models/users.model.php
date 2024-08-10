@@ -148,4 +148,42 @@ class UsersModel{
 		$stmt = null;
 	}
 
+	/*=============================================
+	SHOWING STOCK
+	=============================================*/
+
+	static public function mdlShowStock($table, $item, $value){
+
+        echo '<script>console.log("StockModel::mdlShowStock method called")</script>';
+
+		if($item != null){
+
+			$stmt = Connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item ORDER BY id ASC");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+            echo '<script>console.log("item is not null")</script>';
+
+			return $stmt -> fetch();
+
+		}else{
+
+			$stmt = Connection::connect()->prepare("SELECT * FROM $table ORDER BY id ASC");
+
+			$stmt -> execute();
+
+            echo '<script>console.log("item is null")</script>';
+
+			return $stmt -> fetchAll();
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
 }

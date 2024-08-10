@@ -121,7 +121,7 @@
 
 						</a>
 
-					</li> </ul>';
+					</li></ul>';
 
 				}
 
@@ -147,6 +147,18 @@
 							<i class="fa fa-user"></i>
 
 							<span>User Management</span>
+
+						</a>
+
+					</li>
+					
+					<li>
+
+						<a href="stock">
+
+							<i class="fa fa-bar-chart"></i>
+
+							<span>Stock Management</span>
 
 						</a>
 
