@@ -63,11 +63,11 @@
 					
 					<li>
 
-						<a href="products">
+						<a href="customers">
 
-							<i class="fa fa-product-hunt"></i>
+							<i class="fa fa-users"></i>
 
-							<span>Products</span>
+							<span>Customers</span>
 
 						</a>
 
@@ -151,7 +151,7 @@
 						</a>
 
 					</li>
-				
+					
 					<li>
 
 						<a href="stock">
