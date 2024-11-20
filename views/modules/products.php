@@ -531,9 +531,93 @@ EDIT PRODUCT
 </div>
 
 
+
+<!-- Stock Change Modal -->
+
+<div class="modal fade" id="modalAddStock" tabindex="-1" role="dialog" aria-labelledby="stockChangeModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="stockChangeModalLabel">Update Product Stock</h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+          <span aria-hidden="true">&times;</span>
+
+        </button>
+
+      </div>
+      
+      <div class="modal-body">
+
+        <form id="stockChangeForm" role="form" method="POST" enctype="multipart/form-data">
+
+          <div class="form-group">
+
+            <label for="productCode">Product Code</label>
+
+            <input type="text" class="form-control" id="productCode" name="productCode" readonly>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="productName">Product Name</label>
+
+            <input type="text" class="form-control" id="productName" name="productName" readonly>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="currentStock">Current Stock</label>
+
+            <input type="number" class="form-control" id="currentStock" name="currentStock" readonly>
+
+          </div>
+
+          <div class="form-group">
+            
+            <label for="newStock">New Stock Quantity</label>
+
+            <input type="number" class="form-control" id="newStock" name="newStock" required>
+
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            <button type="submit" class="btn btn-primary" form="stockChangeForm">Save Changes</button>
+
+          </div>
+
+        </form>
+
+        <?php
+        
+          $addStock = new controllerStocks();
+          $addStock -> ctrAddStock();
+        
+        ?>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
 <?php
 
   $deleteProduct = new controllerProducts();
   $deleteProduct -> ctrDeleteProduct();
-
+  
 ?>

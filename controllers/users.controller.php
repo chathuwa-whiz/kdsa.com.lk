@@ -458,21 +458,5 @@ class ControllerUsers{
 		}
 
 	}
-
-	/*=============================================
-	SHOW STOCK
-	=============================================*/
-
-	static public function ctrShowStock($item, $value){
-
-        echo '<script>console.log("ControllerStock::ctrShowStock method called")</script>';
-
-		$table = "stock";
-
-		$answer = UsersModel::mdlShowStock($table, $item, $value);
-
-		return $answer;
-	}
 	
 }
-

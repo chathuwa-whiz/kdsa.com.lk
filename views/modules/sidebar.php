@@ -162,6 +162,18 @@
 
 						</a>
 
+					</li>
+					
+					<li>
+
+						<a href="incomeProfit">
+
+							<i class="fa fa-money"></i>
+
+							<span>Income Profit</span>
+
+						</a>
+
 					</li>';
 
 				}

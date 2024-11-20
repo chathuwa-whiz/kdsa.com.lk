@@ -155,7 +155,7 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
+	
 	/*=============================================
 	EDIT PRODUCT
 	=============================================*/
@@ -306,7 +306,7 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
+	
 	/*=============================================
 	DELETE PRODUCT
 	=============================================*/
@@ -350,7 +350,7 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
+	
 	/*=============================================
 	SHOW ADDING OF THE SALES
 	=============================================*/

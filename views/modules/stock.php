@@ -2,20 +2,10 @@
     <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div class="col-md-12">
-                <!-- <h2 class="text-center" style="margin-bottom: 30px; color: #343a40;">Stock Table</h2> -->
+                <h2 class="text-center" style="margin-bottom: 30px; color: #343a40;">Stock Changes</h2>
 
                 <!-- Search input -->
                 <input class="form-control" id="searchInput" type="text" placeholder="Search for product names..." style="margin-bottom: 20px; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
-
-                <!-- Date filter inputs -->
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-6">
-                        <input type="date" class="form-control" id="startDate" placeholder="Start Date" style="border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="date" class="form-control" id="endDate" placeholder="End Date" style="border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
-                    </div>
-                </div>
 
                 <div class="panel-group" id="stockAccordion">
                     <?php
@@ -23,7 +13,7 @@
                         $value = null;
 
                         // Fetch the stock data
-                        $stocks = ControllerUsers::ctrShowStock($item, $value);
+                        $stocks = controllerStocks::ctrShowStock($item, $value);
 
                         // Group data by product name and sort by date
                         $groupedStocks = [];
@@ -53,12 +43,26 @@
                                 </div>
                                 <div id="' . $collapseId . '" class="panel-collapse collapse">
                                     <div class="panel-body" style="background-color: #fff; border-radius: 10px; padding: 15px;">
+                                        
+                                        <!-- Date filter inputs for each product -->
+                                        <div class="row" style="margin-bottom: 20px;">
+                                            <div class="col-md-6">
+                                                <input type="date" class="form-control product-start-date" placeholder="Start Date" style="border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="date" class="form-control product-end-date" placeholder="End Date" style="border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                                            </div>
+                                        </div>
+
                                         <table class="table table-bordered table-hover table-striped" style="border-radius: 10px;">
                                             <thead>
                                                 <tr class="info" style="background-color: #f8f9fa; color: #343a40;">
                                                     <th>Product Name</th>
-                                                    <th>Stock Count</th>
+                                                    <th>Previous Stock</th>
+                                                    <th>New Stock</th>
+                                                    <th>Current Stock</th>
                                                     <th>Date</th>
+                                                    <th>Time</th>
                                                 </tr>
                                             </thead>
                                             <tbody>';
@@ -66,8 +70,11 @@
                                 echo '
                                                 <tr data-date="' . $stockItem["date"] . '">
                                                     <td>' . $stockItem["productName"] . '</td>
-                                                    <td>' . $stockItem["stockCount"] . '</td>
+                                                    <td>' . $stockItem["previousStock"] . '</td>
+                                                    <td>' . $stockItem["newStock"] . '</td>
+                                                    <td>' . $stockItem["currentStock"] . '</td>
                                                     <td>' . $stockItem["date"] . '</td>
+                                                    <td>' . $stockItem["time"] . '</td>
                                                 </tr>';
                             }
                             echo '
@@ -94,24 +101,28 @@
             });
         });
 
-        // Date filter
-        $("#startDate, #endDate").on("change", function() {
-            var startDate = $("#startDate").val();
-            var endDate = $("#endDate").val();
-
-            $(".panel").each(function() {
-                var panel = $(this);
-                var showPanel = false;
+        // Date filter for each product
+        $(".panel-collapse").each(function() {
+            var panel = $(this);
+            
+            panel.find(".product-start-date, .product-end-date").on("change", function() {
+                var startDate = panel.find(".product-start-date").val();
+                var endDate = panel.find(".product-end-date").val();
 
                 panel.find("tr[data-date]").each(function() {
                     var date = $(this).data("date");
-                    if ((!startDate || date >= startDate) && (!endDate || date <= endDate)) {
-                        showPanel = true;
-                        return false; // No need to check further, show the panel
-                    }
-                });
+                    var showRow = true;
 
-                panel.toggle(showPanel);
+                    if (startDate && date < startDate) {
+                        showRow = false;
+                    }
+
+                    if (endDate && date > endDate) {
+                        showRow = false;
+                    }
+
+                    $(this).toggle(showRow);
+                });
             });
         });
     });

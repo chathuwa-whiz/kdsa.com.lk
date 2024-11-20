@@ -156,6 +156,8 @@ if($xml){
                     <div class="btn-group">
                         
                       <div class="btn-group">
+
+                      <a class="btn btn-success" href="index.php?route=sales&xml='.$value["code"].'">xml</a>
                         
                       <button class="btn btn-warning btnPrintBill" saleCode="'.$value["code"].'">
 
@@ -163,10 +165,18 @@ if($xml){
 
                       </button>';
 
-                       if($_SESSION["profile"] == "Administrator" || $_SESSION["profile"] == "Seller"){
+                       if($_SESSION["profile"] == "Administrator"){
                         
-                         echo '<button class="btn btn-primary btnEditSale" idSale="'.$value["id"].'"><i class="fa fa-pencil"></i></button>';
+                         echo '<button class="btn btn-primary btnEditSale" idSale="'.$value["id"].'"><i class="fa fa-pencil"></i></button>
+
+                          <button class="btn btn-danger btnDeleteSale" idSale="'.$value["id"].'"><i class="fa fa-trash"></i></button>';
                        }
+
+                       if( $_SESSION["profile"] == "Seller"){
+                        
+                        echo '<button class="btn btn-primary btnEditSale" idSale="'.$value["id"].'"><i class="fa fa-pencil"></i></button>
+                         ';
+                      }
 
                    echo '</div>  
 
