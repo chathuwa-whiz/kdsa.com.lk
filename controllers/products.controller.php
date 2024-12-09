@@ -112,6 +112,18 @@ class controllerProducts{
 
 				if($answer == "ok"){
 
+					// update stock information
+					$stockData = array(
+						"productName" => $_POST["newDescription"],
+						"productCode" => $_POST["newCode"],
+						"previousStock" => 0,  // current stock
+						"newStock" => $_POST["newStock"],            // newly added stock
+						"currentStock" => $currentStock + $newStock,    // updated stock value
+						"date" => date('Y-m-d'),
+						"time" => date('H:i:s')
+					);
+					stockModel::mdlAddStock($stockData);
+
 					echo'<script>
 
 						swal({
