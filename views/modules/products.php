@@ -123,8 +123,15 @@ function exportTableToExcel(tableID, filename = ''){
     }
     tableHTML += '</tbody></table>';
 
-    // Specify file name
-    filename = filename ? filename + '.xls' : 'products_report_' + Date.now() + '.xls';
+    // Get the current date
+    var date = new Date();
+    var day = String(date.getDate()).padStart(2, '0');
+    var month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    var year = date.getFullYear();
+    var currentDate = year + '-' + month + '-' + day;
+
+    // Specify file name with the current date
+    filename = filename ? filename + '_' + currentDate + '.xls' : 'products_report_' + currentDate + '.xls';
     
     // Create download link element
     downloadLink = document.createElement("a");
@@ -316,7 +323,7 @@ function exportTableToExcel(tableID, filename = ''){
                     </label>
 
                   </div>
-                
+
                 </div>
 
                 <!-- INPUT PERCENTAGE -->
@@ -334,6 +341,12 @@ function exportTableToExcel(tableID, filename = ''){
               
               </div>
 
+            </div>
+
+            <!-- INPUT DATE -->
+            <div class="form-group">
+              <label for="reportDate">Date</label>
+              <input type="date" class="form-control" id="reportDate" name="reportDate" required>
             </div>
 
             <!-- input image -->
@@ -552,6 +565,12 @@ EDIT PRODUCT
               
               </div>
 
+            </div>
+
+            <!-- INPUT DATE -->
+            <div class="form-group">
+              <label for="reportDate">Date</label>
+              <input type="date" class="form-control" id="reportDate" name="reportDate" required>
             </div>
 
             <!-- INPUT TO UPLOAD IMAGE -->
