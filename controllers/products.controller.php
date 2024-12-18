@@ -118,7 +118,7 @@ class controllerProducts{
 						"productCode" => $_POST["newCode"],
 						"previousStock" => 0,  // current stock
 						"newStock" => $_POST["newStock"],            // newly added stock
-						"currentStock" => $currentStock + $newStock,    // updated stock value
+						"currentStock" => $_POST["previousStock"] + $_POST["newStock"],    // updated stock value
 						"date" => date('Y-m-d'),
 						"time" => date('H:i:s')
 					);
